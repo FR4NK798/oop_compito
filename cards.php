@@ -27,10 +27,17 @@ foreach ($stmt as $row) {
     // echo '<pre>';
     // print_r($row);
     // echo '</pre>';
-    echo '<div>' . $row['nome'] . '</div>';
-    echo '<div>' . $row['descrizione'] . '</div>';
-    echo '<div>' . $row['prezzo'] . '</div>';
-    echo '<img src="' . $row['immagine'] . '" alt="...">';
+    echo '<div class="card" style="width: 18rem;">';
+    echo '<img src="' . $row['immagine'] . '" class="card-img-top" height="230rem" alt="...">';
+
+    echo '<div class="card-body">';
+
+    echo '<h5 class="card-title">' . $row['nome'] . '</h5>';
+    echo '<p class="card-text">' . $row['descrizione'] . '</p>';
+    echo '<div class="card-text">' . $row['prezzo'] . '</div>';
+    echo '<a href="/oop_compito/elimina.php?id=' . $row['id'] . ' class="btn btn-primary">Elimina</a>';
+    echo '</div>';
+    echo '</div>';
 }
 
 // echo '<pre>';
