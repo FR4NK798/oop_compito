@@ -1,5 +1,7 @@
 <?php
 
+if (isset($_COOKIE['consentito'])) {
+
 $host = 'localhost';
 $db   = 'oop_compito';
 $user = 'root';
@@ -21,3 +23,9 @@ $stmt = $pdo->prepare('DELETE FROM cards WHERE id = ?');
 $stmt->execute([$_GET["id"]]);
 
 header("Location: /oop_compito/cards.php");
+
+
+} else {
+    header("Location: /oop_compito/index.php");
+}
+?>

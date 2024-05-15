@@ -61,73 +61,82 @@ class User
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
-                <div>    <?php
+                <div> <?php
 
-// echo '$_post';
-// echo '<pre>';
-// print_r($_POST);
+                        // echo '$_post';
+                        // echo '<pre>';
+                        // print_r($_POST);
 
-if (!isset($_POST["username"])) {
-    // echo 'non settato get';
-} else {
-    // echo 'utente settato';
-    // echo '<br>';
-    session_start();
-    $_SESSION["username"] = $_POST['username'];
-    $_SESSION["password"] = $_POST['password'];
+                        if (!isset($_POST["username"])) {
+                            // echo 'non settato get';
+                        } else {
+                            // echo 'utente settato';
+                            // echo '<br>';
+                            session_start();
+                            $_SESSION["username"] = $_POST['username'];
+                            $_SESSION["password"] = $_POST['password'];
 
-    // echo '$_SESSION';
-    // echo '</pre>';
-    // print_r($_SESSION);
-    // echo '<pre>';
+                            // echo '$_SESSION';
+                            // echo '</pre>';
+                            // print_r($_SESSION);
+                            // echo '<pre>';
 
-    $newUser = new User($_SESSION["username"], $_SESSION["password"]);
+                            $newUser = new User($_SESSION["username"], $_SESSION["password"]);
 
-    // echo 'info utente';
-    // echo '<pre>';
-    // print_r($newUser);
-    // echo '</pre>';
+                            // echo 'info utente';
+                            // echo '<pre>';
+                            // print_r($newUser);
+                            // echo '</pre>';
 
-    $host = 'localhost';
-    $db   = 'oop_compito';
-    $user = 'root';
-    $pass = '';
+                            $host = 'localhost';
+                            $db   = 'oop_compito';
+                            $user = 'root';
+                            $pass = '';
 
-    $dsn = "mysql:host=$host;dbname=$db";
+                            $dsn = "mysql:host=$host;dbname=$db";
 
-    $options = [
-        PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        PDO::ATTR_EMULATE_PREPARES   => false,
-    ];
+                            $options = [
+                                PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+                                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                                PDO::ATTR_EMULATE_PREPARES   => false,
+                            ];
 
-    $pdo = new PDO($dsn, $user, $pass, $options);
+                            $pdo = new PDO($dsn, $user, $pass, $options);
 
-    // SELECT DI TUTTE LE RIGHE
-    $stmt = $pdo->query('SELECT * FROM user_consentiti');
-    // echo 'fetch';
-    $newArrUserDb = [];
+                            // SELECT DI TUTTE LE RIGHE
+                            $stmt = $pdo->query('SELECT * FROM user_consentiti');
+                            // echo 'fetch';
+                            $newArrUserDb = [];
 
-    foreach ($stmt as $row) {
-        $newArrUserDb[] = $row;
-    }
+                            foreach ($stmt as $row) {
+                                $newArrUserDb[] = $row;
+                            }
 
-    // echo 'fetch ARRAY';
-    // echo '<pre>' . print_r($newArrUserDb, true) . '</pre>';
+                            // echo 'fetch ARRAY';
+                            // echo '<pre>' . print_r($newArrUserDb, true) . '</pre>';
 
-    for ($x = 0; $x <= count($newArrUserDb); $x++) {
-        if ($newArrUserDb[$x]['nomeUtente'] === $_SESSION["username"] && $newArrUserDb[$x]['password'] === $_SESSION["password"]) {
-            $_SESSION["access"] = 'OK';
-            echo 'ACCESSO ACCONSENTITO';
-            header("Location: /oop_compito/cards.php");
+                            for ($x = 0; $x <= count($newArrUserDb); $x++) {
+                                if ($newArrUserDb[$x]['nomeUtente'] === $_SESSION["username"] && $newArrUserDb[$x]['password'] === $_SESSION["password"]) {
+                                    $_SESSION["access"] = 'OK';
+                                    echo 'ACCESSO ACCONSENTITO';
+                                    setcookie('consentito', 'OK', time() + 60 * 60, '/', '', false, true);
+                                    echo '<pre>' . print_r($_COOKIE, true) . '</pre>';
+                                    echo '<pre>' . print_r($_SESSION, true) . '</pre>';
+                                    // header("Location: /oop_compito/cards.php");
 
-        }
-    }
-    if(!($_SESSION["access"] === 'OK')){
-        echo 'ACCESSO NEGATO';
-    }
-}
-?></div>
+
+                                    if (isset($_SESSION['access'])) {
+                                        echo "Sei l'utente " . $_SESSION['access'];
+                                        header("Location: /oop_compito/cards.php");
+                                    };
+
+                                }
+                            }
+                            if (!($_SESSION["access"] === 'OK')) {
+                                echo 'ACCESSO NEGATO';
+                            }
+                        }
+                        ?></div>
             </div>
         </div>
     </div>

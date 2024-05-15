@@ -1,3 +1,7 @@
+<?php
+if (isset($_COOKIE['consentito'])) {
+
+    ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -87,3 +91,10 @@
 </body>
 
 </html>
+
+<?php
+
+} else {
+    header("Location: /oop_compito/index.php");
+}
+?>
