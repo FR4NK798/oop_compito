@@ -20,6 +20,8 @@ $stmt = $pdo->query('SELECT * FROM cards');
 // echo 'fetch';
 $newArrUserDb = [];
 
+echo '<a href="/oop_compito/aggiungi.php" class="btn btn-primary">Aggiungi</a>';
+
 
 
 foreach ($stmt as $row) {
@@ -35,7 +37,7 @@ foreach ($stmt as $row) {
     echo '<h5 class="card-title">' . $row['nome'] . '</h5>';
     echo '<p class="card-text">' . $row['descrizione'] . '</p>';
     echo '<div class="card-text">' . $row['prezzo'] . '</div>';
-    echo '<a href="/oop_compito/elimina.php?id=' . $row['id'] . ' class="btn btn-primary">Elimina</a>';
+    echo '<a href="/oop_compito/elimina.php?id=' . $row['id'] . ' " class="btn btn-danger">Elimina</a>';
     echo '</div>';
     echo '</div>';
 }
@@ -54,10 +56,14 @@ foreach ($stmt as $row) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
 </head>
 
 <body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
 </body>
 
 </html>
+
