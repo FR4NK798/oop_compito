@@ -1,4 +1,5 @@
 <?php
+
 $host = 'localhost';
 $db   = 'oop_compito';
 $user = 'root';
@@ -15,95 +16,64 @@ $options = [
 // comando che connette al database
 $pdo = new PDO($dsn, $user, $pass, $options);
 
-$id = $_GET['id'] ?? null;
+$myId = $_GET["id"];
 
-// $id = $_POST['id'];
-$nome = $_POST['nome'];
-$descrizione = $_POST['descrizione'];
-$prezzo = $_POST['prezzo'];
-$immagine = $_POST['immagine'];
+$stmt = $pdo->prepare('SELECT * FROM cards WHERE id = ?');
+$stmt->execute([$myId]);
+$row = $stmt->fetch();
 
 
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
+    // Ottenere i dati dal form
+    $nome = $_POST['nome'];
+    $descrizione = $_POST['descrizione'];
+    $prezzo = $_POST['prezzo'];
+    $immagine = $_POST['immagine'];
 
-if ($id) {
-    $stmt = $pdo->prepare("SELECT * FROM cards WHERE id = :id");
-    $stmt->execute(['id' => $id]);
-    $product = $stmt->fetch();
+    $stmt = $pdo->prepare("UPDATE cards SET nome = :nome, descrizione = :descrizione, prezzo = :prezzo, immagine = :immagine WHERE id = $myId");
+    $stmt->execute([
+        'nome' => $nome,
+        'descrizione' => $descrizione,
+        'prezzo' => $prezzo,
+        'immagine' => $immagine,
 
-    echo '<pre>';
-    print_r($product);
-    echo '</pre>';
+    ]);
+    header('Location: /oop_compito/cards.php');
 }
+
 ?>
-<!DOCTYPE html>
-<html lang="en">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>login</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
-</head>
 
-<body>
-    <h1 class="fs-1">Modifica prodotto
+
+    <h1 class="fs-1">Aggiungi prodotto
     </h1>
     <div class="container">
-        <div class="row">
-            <div class="col">
-                <form style="width: 500px" action="" method="POST">
-                    <div class="mb-3">
-                        <label for="nome" class="form-label">Nome prodotto</label>
-                        <input type="text" class="form-control" name="nome" id="nome" value=' <?= $product['nome'] ?>' required />
-                    </div>
 
-                    <div class="mb-3">
-                        <label for="descrizione" class="form-label">Descrizione prodotto</label>
-                        <input type="text" class="form-control" name="descrizione" id="descrizione" value=' <?= $product['descrizione'] ?>' required />
-                    </div>
+        <form action="" method="POST" novalidate>
+            <input type="hidden" name="id" value="<?= $row['id'] ?>">
+            <div class="mb-3">
+                <label for="nome" class="form-label">Nome</label>
+                <input type="text" class="form-control" id="nome" name="nome" value="<?= $row['nome'] ?>">
+            </div>
+            <div class="mb-3">
+                <label for="descrizione" class="form-label">Descrizione</label>
+                <input type="text" class="form-control" id="descrizione" name="descrizione" value="<?= $row['descrizione'] ?>">
+            </div>
+            <div class="mb-3">
+                <label for="prezzo" class="form-label">Prezzo</label>
+                <input type="number" class="form-control" id="prezzo" name="prezzo" value="<?= $row['prezzo'] ?>">
+            </div>
+            <div class="mb-3">
+                <label for="immagine" class="form-label">Immagine URL</label>
+                <input type="text" class="form-control" id="immagine" name="immagine" value="<?= $row['immagine'] ?>">
+            </div>
+            <button type="submit" class="btn btn-success mt-5">Modifica</button>
+        </form>
+    </div>
+    </div>
 
-                    <div class="mb-3">
-                        <label for="prezzo" class="form-label">Prezzo prodotto</label>
-                        <input type="number" class="form-control" name="prezzo" id="prezzo" value=' <?= $product['prezzo'] ?>' required />
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="immagine" class="form-label">Immagine prodotto</label>
-                        <input type="text" class="form-control" name="immagine" id="immagine" value=' <?= $product['immagine'] ?>' required />
-                    </div>
-
-
-                    <button type="submit" class="btn btn-primary">Aggiungi</button>
-                </form>
-                <div>
-
-                    <?php
-
-
-
-                    echo '<pre>';
-                    print_r($_POST);
-                    echo '</pre>';
-
-                    // if()
-
-                    $stmt = $pdo->prepare("UPDATE cards SET nome = :nome, descrizione = :descrizione, prezzo = :prezzo, immagine = :immagine) WHERE id = :id");
-                    $stmt->execute([
-                        'id' => $id,
-                        'nome' => $nome,
-                        'descrizione' => $descrizione,
-                        'prezzo' => $prezzo,
-                        'immagine' => $immagine,
-                    ]);
-
-
-                    // header("Location: /oop_compito/index.php");
-                    ?>
-
-                    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-</body>
-
-</html>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

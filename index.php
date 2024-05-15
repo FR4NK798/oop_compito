@@ -53,10 +53,10 @@ class User
                 <form style="width: 500px" action="" method="POST">
                     <div class="mb-3">
                         <label for="username" class="form-label">Nome utente</label>
-                        <input type="text" class="form-control" name="username" id="username" value=<?= $_SESSION["username"] ?  $_SESSION["username"] : '' ?> required />
+                        <input type="text" class="form-control" name="username" id="username" required />
                     </div>
                     <div class="mb-3">
-                        <label for="password" class="form-label" value=<?= $_SESSION["password"] ?  $_SESSION["password"] : '' ?>>Password</label>
+                        <label for="password" class="form-label">Password</label>
                         <input type="password" class="form-control" name="password" id="password" required />
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
