@@ -126,11 +126,6 @@ if (!isset($_POST["username"])) {
     if(!($_SESSION["access"] === 'OK')){
         echo 'ACCESSO NEGATO';
     }
-
-    // echo '$_SESSION dopo login';
-    // echo '<pre>';
-    // print_r($_SESSION);
-    // echo '</pre>';
 }
 ?></div>
             </div>
