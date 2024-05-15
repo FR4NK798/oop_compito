@@ -30,7 +30,7 @@ foreach ($stmt as $row) {
     // print_r($row);
     // echo '</pre>';
     echo '<div class="card" style="width: 18rem;">';
-    echo '<img src="' . $row['immagine'] . '" class="card-img-top" height="230rem" alt="...">';
+    echo '<img src="' . $row['immagine'] . '" class="card-img-top object-fit-contain" height="230rem" alt="...">';
 
     echo '<div class="card-body">';
 
@@ -38,6 +38,7 @@ foreach ($stmt as $row) {
     echo '<p class="card-text">' . $row['descrizione'] . '</p>';
     echo '<div class="card-text">' . $row['prezzo'] . '</div>';
     echo '<a href="/oop_compito/elimina.php?id=' . $row['id'] . ' " class="btn btn-danger">Elimina</a>';
+    echo '<a href="/oop_compito/modifica.php?id=' . $row['id'] . ' " class="btn btn-danger">Modifica</a>';
     echo '</div>';
     echo '</div>';
 }

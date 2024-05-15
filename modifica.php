@@ -1,3 +1,42 @@
+<?php
+$host = 'localhost';
+$db   = 'oop_compito';
+$user = 'root';
+$pass = '';
+
+$dsn = "mysql:host=$host;dbname=$db";
+
+$options = [
+    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    PDO::ATTR_EMULATE_PREPARES   => false,
+];
+
+// comando che connette al database
+$pdo = new PDO($dsn, $user, $pass, $options);
+
+$id = $_GET['id'] ?? null;
+
+// $id = $_POST['id'];
+$nome = $_POST['nome'];
+$descrizione = $_POST['descrizione'];
+$prezzo = $_POST['prezzo'];
+$immagine = $_POST['immagine'];
+
+
+
+
+
+if ($id) {
+    $stmt = $pdo->prepare("SELECT * FROM cards WHERE id = :id");
+    $stmt->execute(['id' => $id]);
+    $product = $stmt->fetch();
+
+    echo '<pre>';
+    print_r($product);
+    echo '</pre>';
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,7 +49,7 @@
 </head>
 
 <body>
-    <h1 class="fs-1">Aggiungi prodotto
+    <h1 class="fs-1">Modifica prodotto
     </h1>
     <div class="container">
         <div class="row">
@@ -18,22 +57,22 @@
                 <form style="width: 500px" action="" method="POST">
                     <div class="mb-3">
                         <label for="nome" class="form-label">Nome prodotto</label>
-                        <input type="text" class="form-control" name="nome" id="nome" required />
+                        <input type="text" class="form-control" name="nome" id="nome" value=' <?= $product['nome'] ?>' required />
                     </div>
 
                     <div class="mb-3">
                         <label for="descrizione" class="form-label">Descrizione prodotto</label>
-                        <input type="text" class="form-control" name="descrizione" id="descrizione" required />
+                        <input type="text" class="form-control" name="descrizione" id="descrizione" value=' <?= $product['descrizione'] ?>' required />
                     </div>
 
                     <div class="mb-3">
                         <label for="prezzo" class="form-label">Prezzo prodotto</label>
-                        <input type="number" class="form-control" name="prezzo" id="prezzo" required />
+                        <input type="number" class="form-control" name="prezzo" id="prezzo" value=' <?= $product['prezzo'] ?>' required />
                     </div>
 
                     <div class="mb-3">
                         <label for="immagine" class="form-label">Immagine prodotto</label>
-                        <input type="text" class="form-control" name="immagine" id="immagine" required />
+                        <input type="text" class="form-control" name="immagine" id="immagine" value=' <?= $product['immagine'] ?>' required />
                     </div>
 
 
@@ -43,27 +82,7 @@
 
                     <?php
 
-                    $host = 'localhost';
-                    $db   = 'oop_compito';
-                    $user = 'root';
-                    $pass = '';
 
-                    $dsn = "mysql:host=$host;dbname=$db";
-
-                    $options = [
-                        PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-                        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                        PDO::ATTR_EMULATE_PREPARES   => false,
-                    ];
-
-                    // comando che connette al database
-                    $pdo = new PDO($dsn, $user, $pass, $options);
-
-
-                    $nome = $_POST['nome'];
-                    $descrizione = $_POST['descrizione'];
-                    $prezzo = $_POST['prezzo'];
-                    $immagine = $_POST['immagine'];
 
                     echo '<pre>';
                     print_r($_POST);
@@ -71,8 +90,9 @@
 
                     // if()
 
-                    $stmt = $pdo->prepare("INSERT INTO cards (nome, descrizione, prezzo, immagine) VALUES (:nome, :descrizione, :prezzo, :immagine)");
+                    $stmt = $pdo->prepare("UPDATE cards SET nome = :nome, descrizione = :descrizione, prezzo = :prezzo, immagine = :immagine) WHERE id = :id");
                     $stmt->execute([
+                        'id' => $id,
                         'nome' => $nome,
                         'descrizione' => $descrizione,
                         'prezzo' => $prezzo,
