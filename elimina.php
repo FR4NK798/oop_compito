@@ -1,6 +1,6 @@
 <?php
 
-if (isset($_COOKIE['consentito'])) {
+if (isset($_SESSION['access'])) {
 
 $host = 'localhost';
 $db   = 'oop_compito';

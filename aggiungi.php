@@ -1,5 +1,5 @@
 <?php
-if (isset($_COOKIE['consentito'])) {
+if (isset($_SESSION['access'])) {
 
     ?>
 <!DOCTYPE html>

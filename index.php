@@ -119,15 +119,15 @@ class User
                                 if ($newArrUserDb[$x]['nomeUtente'] === $_SESSION["username"] && $newArrUserDb[$x]['password'] === $_SESSION["password"]) {
                                     $_SESSION["access"] = 'OK';
                                     echo 'ACCESSO ACCONSENTITO';
-                                    setcookie('consentito', 'OK', time() + 60 * 60, '/', '', false, true);
-                                    echo '<pre>' . print_r($_COOKIE, true) . '</pre>';
-                                    echo '<pre>' . print_r($_SESSION, true) . '</pre>';
-                                    // header("Location: /oop_compito/cards.php");
+
+                    
 
 
                                     if (isset($_SESSION['access'])) {
-                                        echo "Sei l'utente " . $_SESSION['access'];
+  
                                         header("Location: /oop_compito/cards.php");
+                   
+
                                     };
 
                                 }

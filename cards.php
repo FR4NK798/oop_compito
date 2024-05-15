@@ -1,7 +1,7 @@
 <?php
 
-if (isset($_COOKIE['consentito'])) {
-    echo '<pre>' . print_r($_COOKIE, true) . '</pre>';
+if (isset($_SESSION['access'])) {
+
 
 
 
